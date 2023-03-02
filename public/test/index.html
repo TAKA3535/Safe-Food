@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScriptで画像ファイル選択時にプレビューを表示する方法</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <h1>JavaScriptで画像ファイル選択時にプレビューを表示する方法</h1>
+    <p>画像ファイルを選択してプレビューが表示されることをご確認ください。</p>
+    <form action="">
+        <div>
+            <label for="input">画像ファイル</label>
+            <input type="file" name="input" id="input" accept="image/*">
+            <figure id="figure" style="display: none">
+                <figcaption>画像ファイルのプレビュー</figcaption>
+                <img src="" alt="" id="figureImage" >
+            </figure>
+        </div>
+    </form>
+    <script src="main.js"></script>
+</body>
+
+</html>
