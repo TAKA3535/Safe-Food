@@ -25,7 +25,7 @@
 
     <style>
         header {
-            height: 90px;
+            height: 100px;
             position: sticky;
             top: 0;
             z-index: 999;
@@ -81,16 +81,9 @@
         <h1>
             <a href="/main" class="logo">Safe Food</a>
         </h1>
+
         <nav>
-            <select name="category" id="category">
-                <option value="">全ジャンル</option>
-                <option value="food">冷蔵</option>
-                <option value="food">冷凍</option>
-                <option value="food">常温</option>
-            </select><br>
-        </nav><br>
-        <nav>
-        <button class="styled" type="button" onclick="location.href='/line'">
+            <button class="styled" type="button" onclick="location.href='/line'">
                 公式Line登録/仕様書
             </button>
         </nav>
@@ -100,16 +93,21 @@
                 <li> <button class="styled" type="button" onclick="location.href='/foods/create'">商品登録</button>
                 </li>
                 <!-- <li><a href="/foods/create">商品登録</a></li> -->
-                <li><a href="/profile"><img src="kkrn_icon_user_8.png" alt="ユーザーアイコン" width="30" height="30"></a></li>
+                <li><a href="/profile"><img src="/kkrn_icon_user_8.png" alt="ユーザーアイコン" width="30" height="30"></a></li>
             </ul>
         </nav>
-    </header><br>
+    </header>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <div class="background">
         <div id="app">
 
-            <main class="bg-home d-flex align-items-center w-100 h-100">
-                @yield('content')
-            </main>
+            <!-- <main class="bg-home d-flex align-items-center w-100 h-100"> -->
+            @yield('content')
+            <!-- </main> -->
 
 
         </div>

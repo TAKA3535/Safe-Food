@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main-another')
 
 @section('content')
 <form class="center" action="/main" method="post">
@@ -10,7 +10,7 @@
     <input type="file" id="image" name="image"><br> -->
 
     <!-- フォームで選択した画像 -->
-    <img id="figureImage" accept="image/*" src="https://tool-engineer.work/wp-content/uploads/2022/06/default.png"><br>
+    <img id="figureImage" class="createImage" accept="image/*" src="https://tool-engineer.work/wp-content/uploads/2022/06/default.png"><br>
 
     <div class="buttons">
         <!-- フォーム -->
@@ -38,7 +38,7 @@
     <label for="date">通知日設定:</label>
     <input type="date" id="date" name="date" min="<?php echo date('Y-m-d'); ?>" value="<?php echo date('Y-m-d'); ?>"><br>
 
-    <input type="submit" value="商品を更新"><br>
+    <input class="styled" type="submit" value="商品を更新"><br>
     <input type="submit" value="商品を削除">
 </form>
 @endsection

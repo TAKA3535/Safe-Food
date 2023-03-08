@@ -1,4 +1,4 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
 .wrapper {
     max-width: 1140px;
@@ -73,15 +73,14 @@ body {
     padding: 0.5rem;
 }
 
-/*  */
-
+/* アイコン */
 .logo {
     color: #006a2a;
 }
 
-/* img {
-    height: 200px
-} */
+.createImage {
+    height: 200px;
+}
 
 .center {
     /*コレ*/
@@ -93,17 +92,35 @@ body {
 }
 
 .wrap {
+    /* position: fixed; */
+    /* width: fit-content;
+    margin: auto; */
+    /* margin-right: auto; */
+    /* margin-left: 0; */
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    /* align-items: center; */
 }
 
+.size {
+    height: 300px;
+    width: 300px;
+}
+
+/* main画面の画像 */
 .item {
+    /*コレ*/
+    width: fit-content;
+    /*コレ*/
+    margin: 0 auto;
     padding: 1px;
-    width: 30%;
-    background-color: #a8a8a8;
+    /* width: 20%; */
+    /* 背景色+背景色に透明度を出す */
+    background-color: rgba(158, 150, 150, 0.8);
 }
 
-.item:not(:nth-child(3n+3)) {
+.item:not(:nth-child(4n+4)) {
     margin-right: 5px;
 }
 
@@ -117,6 +134,15 @@ body {
     background-image: url(/reizouko.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+}
+
+/* line QEコード */
+.line {
+    /*コレ*/
+    width: fit-content;
+    /*コレ*/
+    margin: 0 auto;
+    /* margin: auto; */
 }
 
 /* @media not all and (min-width: 768px) {

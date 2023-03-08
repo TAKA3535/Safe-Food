@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
+// メール
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AlertMail;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,4 +64,34 @@ Route::get('line', function () {
     return view('line');
 })->middleware(['auth', 'verified']);
 
+Route::get('create', function () {
+    return view('create');
+})->middleware(['auth', 'verified']);
+
+Route::get('test2', function () {
+    return view('test2');
+})->middleware(['auth', 'verified']);
+
 require __DIR__ . '/auth.php';
+
+
+
+Route::get('/send-email', function () {
+    // $to_email = 't.m.guestmail@gmail.com';
+    $to_email = Auth::user();
+    // $to_email = Auth::email();
+    Mail::to($to_email)->send(new AlertMail());
+    // return 'Send mailing' . $to_email;
+    return 'send-email OK';
+})->middleware('auth');
+
+
+
+// use Illuminate\Support\Facades\Mail;
+// use App\Mail\AlertMail;
+
+// Route::get('/send-email', function () {
+//     $to_email = Auth::user();
+//     Mail::to($to_email)->send(new AlertMail());
+//     return $to_email;
+// })->middleware(['auth', 'verified']);

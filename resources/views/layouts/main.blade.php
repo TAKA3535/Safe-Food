@@ -11,8 +11,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <!-- <script src="{{ mix('js/app.js') }}" defer></script> -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <!-- @vite( 'resources/js/app.js') -->
     <link rel="stylesheet" href="/css/style.css">
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -22,7 +25,7 @@
     <br>
     <style>
         header {
-            height: 50px;
+            height: 100px;
             padding: 30px 4% 10px;
             position: fixed;
             top: 0;
@@ -76,6 +79,20 @@
         <h1>
             <a href="/main" class="logo">Safe Food</a>
         </h1>
+        <nav>
+            <select name="category" id="category">
+                <option value="">全ジャンル</option>
+                <option value="food">冷蔵</option>
+                <option value="food">冷凍</option>
+                <option value="food">常温</option>
+            </select>
+            <select>
+                <option value="">並び替え</option>
+                <option value="">昇順</option>
+                <option value="food">降順</option>
+            </select>
+        </nav><br>
+
         <nav>
             <button class="styled" type="button" onclick="location.href='/line'">
                 公式Line登録/仕様書

@@ -79,7 +79,7 @@
             </ul>
         </nav>
     </header>
-    <div id="app">
+    <div>
         @component('components.header')
         @endcomponent
 
