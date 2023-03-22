@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands;
 
-
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AlertMail;
@@ -71,29 +72,36 @@ class SendEmails extends Command
         // Mail::to($to_email)->send(new AlertMail());
         // return 'Send mailing' . $to_email;
 
-        {
-            $date = '2023-03-07'; // 送信する日付
-            // $subject = 'メールの件名';
-            // $to = '送信先メールアドレス';
-            // $data = [
-            //     // メールに含めるデータ
-            // ];
 
-            if (date('Y-m-d') == $date) {
-                $user = Auth::user(); // メール送信先のユーザー情報を取得するコードを記述する
-                $mail = new AlertMail($user);
-                Mail::to('t.m.guestmail@gmail.com')->send($mail);
-                $this->info('Mailing has been sent!');
-            }
+        // 送信する日付
+        // $subject = 'メールの件名';
+        // $to = '送信先メールアドレス';
+        // $data = [
+        //     // メールに含めるデータ
+        // ];
+        // {
+        //     $date = '2023-03-08'; 
+        // if (date('Y-m-d') == $date) {
+        if (date('Y-m-d') == date('2023-03-15')) {
+            // $user = Auth::user(); // メール送信先のユーザー情報を取得するコードを記述する
+            // $user = User::all();
+            $mail = new AlertMail();
+            Mail::to('t.m.guestmail@gmail.com')->send($mail);
+            // Mail::to($user)->send(new AlertMail());
+            $this->info('Mailing has been sent!');
         }
+        // }
     }
+// 実行コマンド：sail php artisan schedule:work
 
-    public function schedule()
-    {
-        return $this->everyMinute();	
-    }
+    // public function schedule()
+    // {
+    //     // return $this->everyTwoMinutes();	
+    //     // return $this->dailyAt('13:16');	
+    //     return $this->dailyAt('13:50');
+    // }
 }
-// php artisan schedule:run
+// sail php artisan schedule:work
 // これにより、指定した時間に自動でメールが送信されます。また、スケジュールが設定されている場合は、サーバーのクロンジョブを設定して定期的に php artisan schedule:run を実行するように設定する必要があります。
 
 // class SendEmails extends Command

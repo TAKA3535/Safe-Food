@@ -12,7 +12,10 @@
 
     <!-- Scripts -->
     <!-- <script src="{{ mix('js/app.js') }}" defer></script> -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/food.js'])
+    <!-- 下記でjQueryを読み込む -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- @vite( 'resources/js/app.js') -->
     <link rel="stylesheet" href="/css/style.css">
 
@@ -23,6 +26,105 @@
 
     <!-- Styles -->
     <br>
+
+    <!-- <script>
+        $(document).ready(function() {
+            // カテゴリープルダウンが変更された場合のイベント
+            $('#mySelect').change(function() {
+                // カテゴリーIDを取得
+                var categoryId = $(this).val();
+                // console.log(categoryId);
+                if (categoryId) {
+                    $.ajax({
+                        url: "{{ url('/food/filter/') }}/" + categoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            // データが取得されたら、フィルターされた商品を表示
+                            $('.wrap').html(data.html);
+                        }
+                    });
+                } else {
+                    // カテゴリーが選択されていない場合は、全ての商品を表示
+                    $.ajax({
+                        url: "{{ url('/food') }}",
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('.wrap').html(data.html);
+                        }
+                    });
+                }
+            });
+        });
+    </script> -->
+    <!-- <script>
+        document.getElementById("mySelect").onchange = function() {
+            var categoryId = this.value;
+            window.location.href = "/foods?category_id=" + categoryId;
+        };
+    </script> -->
+    <!-- <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#category').change(function() {
+                var categoryId = $(this).val();
+                if (categoryId) {
+                    $.ajax({
+                        url: '/category/show',
+                        type: 'POST',
+                        data: {
+                            category_id: categoryId
+                        },
+                        dataType: 'html',
+                        success: function(data) {
+                            $('#product-list').html(data);
+                        },
+                        error: function() {
+                            alert('エラーが発生しました。');
+                        }
+                    });
+                } else {
+                    $('#product-list').html('');
+                }
+            });
+        });
+    </script> -->
+    <script>
+        $(document).ready(function() {
+            $('#record-selector').change(function() {
+                var recordId = $(this).val();
+                if (recordId) {
+                    $.ajax({
+                        url: '/records/' + recordId,
+                        type: 'GET',
+                        success: function(data) {
+                            $('#selected-record').html(data);
+                        }
+                    });
+                } else {
+                    $('#selected-record').empty();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function showContent(selectElement) {
+            var selectedValue = selectElement.value;
+            var contents = document.getElementsByClassName("wraptest");
+            for (var i = 0; i < contents.length; i++) {
+                var content = contents[i];
+                if (content.id == selectedValue) {
+                    content.style.display = "block";
+                } else {
+                    content.style.display = "none";
+                }
+            }
+        }
+    </script>
+
+
     <style>
         header {
             height: 100px;
@@ -80,12 +182,33 @@
             <a href="/main" class="logo">Safe Food</a>
         </h1>
         <nav>
-            <select name="category" id="category">
-                <option value="">全ジャンル</option>
-                <option value="food">冷蔵</option>
-                <option value="food">冷凍</option>
-                <option value="food">常温</option>
+
+            <!-- <select name="category_id"  onchange="showContent(this)">
+                <option value="full">全ジャンル</option>
+                @foreach ($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                @endforeach
+            </select> -->
+
+            <select name="category_id"  onchange="showContent(this)">
+                <option value="full">全ジャンル</option>
+                <option value="0">冷蔵</option>
+                <option value="1">冷凍</option>
+                <option value="2">常温 </option>
             </select>
+
+            <!-- <select name="category_id" id="mySelect">
+                <option value="">全ジャンル</option>
+                @foreach ($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                @endforeach
+            </select> -->
+            <!-- <select name="category_id" id="mySelect">
+                <option value="">選択してください</option>
+                @foreach ($foodData as $data)
+                <option value="{{ $data->id }}">{{ $data->category_id }}</option>
+                @endforeach
+            </select> -->
             <select>
                 <option value="">並び替え</option>
                 <option value="">昇順</option>

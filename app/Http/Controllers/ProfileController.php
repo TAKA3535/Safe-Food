@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Food;
+
 
 class ProfileController extends Controller
 {
@@ -49,6 +51,10 @@ class ProfileController extends Controller
         $user = $request->user();
 
         Auth::logout();
+
+        // ユーザーが所有する全ての食品データを別の場所に移動
+        Food::where('user_id', $user->id)->update(['user_id' => null, 'updated_at' => false]);
+        // updated_at を無効にした
 
         $user->delete();
 

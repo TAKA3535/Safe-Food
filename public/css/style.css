@@ -78,29 +78,52 @@ body {
     color: #006a2a;
 }
 
+.logo:hover {
+    color: #01451c;
+    ;
+}
+
 .createImage {
     height: 200px;
 }
 
 .center {
     /*コレ*/
-    width: fit-content;
+    /* width: fit-content; */
+    width: 600px;
     /*コレ*/
     margin: auto;
     border: 1px solid #7effb2;
-    background: #e4e4e4;
+    background: rgba(158, 150, 150, 0.7);
 }
 
 .wrap {
     /* position: fixed; */
-    /* width: fit-content;
-    margin: auto; */
+    width: fit-content;
+    margin: auto;
     /* margin-right: auto; */
     /* margin-left: 0; */
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     /* align-items: center; */
+}
+
+/* .wrap div {
+    width: 25%;
+} */
+
+.wrap>* {
+    flex-basis: calc(20% - 20px);
+    /* 20% は、5つのフレックスアイテムが含まれるための幅の割合であり、20px は、各フレックスアイテムの間に設定する余白の幅です。 */
+    margin: 10px;
+    /* 上下左右に10pxの余白を設定します。 */
+}
+
+.wrap :nth-child(n+4) {
+    /* 5番目以降のフレックスアイテムには、以下のスタイルを適用します。 */
+    flex-basis: calc(25% - 20px);
+    /* 25% は、5つのフレックスアイテムが含まれるための幅の割合であり、20px は、各フレックスアイテムの間に設定する余白の幅です。 */
 }
 
 .size {
@@ -117,16 +140,16 @@ body {
     padding: 1px;
     /* width: 20%; */
     /* 背景色+背景色に透明度を出す */
-    background-color: rgba(158, 150, 150, 0.8);
+    background-color: rgba(158, 150, 150, 0.7);
 }
 
-.item:not(:nth-child(4n+4)) {
+/* .item:not(:nth-child(n+4)) {
     margin-right: 5px;
 }
 
 .item:nth-child(n+4) {
     margin-top: 5px;
-}
+} */
 
 .background {
     width: 100%;
@@ -267,4 +290,101 @@ body {
 
 .styled:active {
     box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6), inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+.styled2 {
+    width: 100%;
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: #4f4f4f;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 10px;
+    background-color: rgb(253, 80, 80);
+    background-image: linear-gradient(to top left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(249, 66, 90, 0.6), inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+}
+
+.styled2:hover {
+    background-color: rgb(220, 9, 9);
+}
+
+.styled2:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6), inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* .createImage {
+    width: 30px;
+    height: 30px;
+} */
+
+/* input[type="radio"] {
+    display: none;
+} */
+
+/* 画像の周りに隙間をあける */
+/* label img {
+    margin: 3px;
+    padding: 5px;
+} */
+
+/* 未選択の場合、色を薄くする */
+/* input[type="radio"]+label img {
+    opacity: 0.2;
+} */
+
+/* 選択済みの場合、色を濃くする */
+/* input[type="radio"]:checked+label img {
+    opacity: 1;
+} */
+
+html,
+body {
+    /* 横スク禁止 */
+    overflow-x: hidden;
+}
+
+.item.alert {
+    background-color: #FF0000;
+    /* 赤色 */
+}
+
+.limit {
+    background-color: rgba(241, 100, 100, 0.7);
+}
+
+.limitAlert {
+    background-color: rgba(239, 241, 100, 0.7);
+}
+
+/* fileの選択されていませんを消す */
+/* input[type="file"] {
+    display: none;
+} */
+
+.wraptest {
+    /* position: fixed; */
+    width: fit-content;
+    margin: auto;
+    /* margin-right: auto; */
+    /* margin-left: 0; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+.wraptest>* {
+    flex-basis: calc(20% - 20px);
+    /* 20% は、5つのフレックスアイテムが含まれるための幅の割合であり、20px は、各フレックスアイテムの間に設定する余白の幅です。 */
+    margin: 10px;
+    /* 上下左右に10pxの余白を設定します。 */
+}
+
+.wraptest :nth-child(4n+4) {
+    /* 5番目以降のフレックスアイテムには、以下のスタイルを適用します。 */
+    flex-basis: calc(25% - 20px);
+    /* 25% は、5つのフレックスアイテムが含まれるための幅の割合であり、20px は、各フレックスアイテムの間に設定する余白の幅です。 */
 }

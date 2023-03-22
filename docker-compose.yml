@@ -1,46 +1,47 @@
-version: '3'
-services:
-    laravel.test:
-        build:
-            context: ./vendor/laravel/sail/runtimes/8.2
-            dockerfile: Dockerfile
-            args:
+version: '3'  # Docker Composeファイルのバージョンを定義します。
+
+services: # コンテナを定義するためのブロックです。
+    laravel.test:     # Laravelアプリケーションを実行するためのコンテナを定義します。
+        build:      #  イメージのビルド方法を定義します。
+            context: ./vendor/laravel/sail/runtimes/8.2   #  Dockerfileが存在するディレクトリのパスを定義します。
+            dockerfile: Dockerfile       # 使用するDockerfileの名前を定義します。
+            args:             # Dockerfileに渡す引数を定義します。
                 WWWGROUP: '${WWWGROUP}'
-        image: sail-8.2/app
-        extra_hosts:
+        image: sail-8.2/app   # ビルドされたイメージの名前を定義します。
+        extra_hosts:      # Dockerコンテナ内のホスト名とIPアドレスを関連付けることができます。
             - 'host.docker.internal:host-gateway'
-        ports:
+        ports:    # ポートのフォワーディングを定義します。
             - '${APP_PORT:-80}:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
-        environment:
+        environment: #  環境変数を定義します。
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-        volumes:
+        volumes:    #  ボリュームのマウントを定義します。
             - '.:/var/www/html'
-        networks:
+        networks:    #  ネットワークの定義をします。
             - sail
-        depends_on:
+        depends_on:   # 依存するコンテナを定義します。
             - mysql
             - mailpit
-    mysql:
-        image: 'mysql/mysql-server:8.0'
-        ports:
+    mysql:     # MySQLデータベースを実行するためのコンテナを定義します。
+        image: 'mysql/mysql-server:8.0'      #  使用するMySQLイメージを定義します。
+        ports:     #   ポートのフォワーディングを定義します。
             - '${FORWARD_DB_PORT:-3306}:3306'
-        environment:
+        environment: #   環境変数を定義します。
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: '%'
             MYSQL_DATABASE: '${DB_DATABASE}'
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
-        volumes:
+        volumes:      #  ボリュームのマウントを定義します。
             - 'sail-mysql:/var/lib/mysql'
             - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-        networks:
+        networks:      #   ネットワークの定義をします。
             - sail
-        healthcheck:
+        healthcheck:      #  ヘルスチェックの定義をします。
             test:
                 - CMD
                 - mysqladmin
@@ -48,24 +49,24 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
-    mailpit:
-        image: 'axllent/mailpit:latest'
-        ports:
+    mailpit:      # メールサーバーを実行するためのコンテナを定義します。
+        image: 'axllent/mailpit:latest'       #   使用するメールサーバーイメージを定義します。
+        ports:        # ポートのフォワーディングを定義します。
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
-        networks:
+        networks:     #  ネットワークの定義をします。
             - sail
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        depends_on:
+    phpmyadmin:       # MySQL管理用のWebアプリケーションを実行するためのコンテナを定義します。
+        image: phpmyadmin/phpmyadmin       # 使用するphpMyAdminイメージを定義します。
+        depends_on:      #  依存するコンテナを定義します。
             - mysql
-        ports:
+        ports:       #   ポートのフォワーディングを定義します。
             - 8080:80
-        environment:
+        environment:      # 環境変数を定義します。
             PMA_USER: '${DB_USERNAME}'
             PMA_PASSWORD: '${DB_PASSWORD}'
             PMA_HOST: mysql
-        networks:
+        networks:       # ネットワークの定義をします。
             - sail
             # 新しく追加するDockerコンテナ
     google-cloud-sdk:
@@ -78,3 +79,5 @@ networks:
 volumes:
     sail-mysql:
         driver: local
+
+    

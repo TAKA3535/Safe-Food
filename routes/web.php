@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Food;
 // メール
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AlertMail;
@@ -22,13 +23,18 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-Route::get('/main', function () {
-    return view('main');
-})->middleware(['auth', 'verified'])->name('main');
+// Route::get('/main', function () {
+//     return view('main');
+// })->middleware(['auth', 'verified'])->name('main');
 
-Route::post('/main', function () {
-    return view('main');
-})->middleware(['auth', 'verified'])->name('main');
+Route::get('/main', 'App\Http\Controllers\FoodController@show')->middleware(['auth', 'verified']);
+Route::post('/main', 'App\Http\Controllers\FoodController@create')->middleware(['auth', 'verified']);
+
+// Route::put('/main/{{$data->id}}', 'App\Http\Controllers\FoodController@update')->middleware(['auth', 'verified']);
+
+// Route::post('/main', function () {
+//     return view('main');
+// })->middleware(['auth', 'verified'])->name('main');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -44,9 +50,13 @@ Route::get('foods/create', function () {
     return view('foods/create');
 })->middleware(['auth', 'verified']);
 
-Route::get('foods/update', function () {
-    return view('foods/update');
-})->middleware(['auth', 'verified']);
+Route::get('/foods/update/{id}', 'App\Http\Controllers\FoodController@foodUpdate')->middleware(['auth', 'verified']);
+Route::post('/foods/update/{id}', 'App\Http\Controllers\FoodController@update')->middleware(['auth', 'verified']);
+Route::post('/foods/delete/{id}', 'App\Http\Controllers\FoodController@delete')->middleware(['auth', 'verified']);
+
+// Route::get('foods/update/{foodId}', function () {
+//     return view('foods/update');
+// })->middleware(['auth', 'verified']);
 
 Route::get('auth/confirm-password', function () {
     return view('auth/confirm-password');
@@ -83,7 +93,7 @@ Route::get('/send-email', function () {
     Mail::to($to_email)->send(new AlertMail());
     // return 'Send mailing' . $to_email;
     return 'send-email OK';
-})->middleware('auth');
+})->middleware(['auth', 'verified']);
 
 
 

@@ -26,8 +26,8 @@ class Kernel extends ConsoleKernel
     //$schedule プロパティに、定期的に実行するタスクを定義
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('sendmails')->everyMinute();	
-        // $schedule->command('writelog')->everyMinute();
+        // $schedule->command('sendmails')->dailyAt('15:16');	
+        $schedule->command('sendmails')->everyMinute();
         // $schedule->command('email:newuser')->everyMinute();
         // $schedule->command('writelog')->everyMinute();
     }
