@@ -34,19 +34,74 @@ class FoodController extends Controller
         // $foodData = Food::where('user_id', $userId)->where('category_id', 1)->get();
 
         // 現在ログインしているユーザーに関連する食品データのみ取得
-        $foodData = Food::where('user_id', $userId)->get();        
+        // $foodData = Food::where('user_id', $userId)->get();    
+
+        // $sort = $request->sort;
+
+        // 昇順にソートする場合    
+        // $foodData = Food::where('user_id', $userId)->orderBy('limit_date')->get();
+        //降順にソートする場合 
+        // $foodData = Food::where('user_id', $userId)->orderByDesc('limit_date')->get();   
+
+
+        // ボタンのクエリパラメーターからソートの順番を取得,limitが予約語なので""で囲む
+        // $sortOrder = $request->query('sort_order', 'asc');
+        // $orderBy = $sortOrder === 'desc' ? 'limit_date desc' : 'limit_date asc';
+        // $orderBy = $sortOrder === 'desc' ? 'alert desc' : 'alert asc';
+
+        // リクエストに sort パラメータが存在する場合
+        if ($request->sort) {
+            $sort = $request->sort;
+            // sort パラメータが asc の場合、昇順にソートする
+            if ($sort === 'asc') {
+                $foodData = Food::where('user_id', $userId)->orderBy('limit_date', 'asc')->get();
+            }
+            // sort パラメータが desc の場合、降順にソートする
+            else if ($sort === 'desc') {
+                $foodData = Food::where('user_id', $userId)->orderBy('limit_date', 'desc')->get();
+            }
+        }
+        // sort パラメータが存在しない場合は、デフォルトで昇順にソートする
+        else {
+            $foodData = Food::where('user_id', $userId)->orderBy('limit_date', 'asc')->get();
+        }
+
+        // リクエストに sort パラメータが存在する場合
+        if ($request->sort) {
+            $sort = $request->sort0;
+            // sort パラメータが asc の場合、昇順にソートする
+            if ($sort === 'asc') {
+                $foods1 = Food::where('user_id', $userId)->where('category_id', 1)->orderBy('limit_date', 'asc')->get();
+            }
+            // sort パラメータが desc の場合、降順にソートする
+            else if ($sort === 'desc') {
+                $foods1 = Food::where('user_id', $userId)->where('category_id', 1)->orderBy('limit_date', 'desc')->get();
+            }
+        }
+        // sort パラメータが存在しない場合は、デフォルトで昇順にソートする
+        else {
+            $foods1 = Food::where('user_id', $userId)->where('category_id', 1)->orderBy('limit_date', 'asc')->get();
+        }
+
+
+        // 昇順・降順にソートする場合    
+        // $foodData = Food::where('user_id', $userId)->orderByRaw($orderBy)->get();
+        // category_idが1の場合
+        // $foods1 = Food::where('user_id', $userId)->where('category_id', 1)->orderByRaw($orderBy)->get();
+        // // category_idが2の場合
+        // $foods2 = Food::where('user_id', $userId)->where('category_id', 2)->orderByRaw($orderBy)->get();
+        // // category_idが3の場合
+        // $foods3 = Food::where('user_id', $userId)->where('category_id', 3)->orderByRaw($orderBy)->get();
 
         // // category_idが1, 2, 3の場合
         // $foods123 = Food::whereIn('category_id', [1, 2, 3])->get();
 
-        // category_idが1だけの場合
-        $foods1 = Food::where('user_id', $userId)->where('category_id', 1)->get();
-
+        // category_idが1の場合
+        $foods1 = Food::where('user_id', $userId)->where('category_id', 1)->orderBy('limit_date')->get();
         // category_idが2の場合
-        $foods2 = Food::where('user_id', $userId)->where('category_id', 2)->get();
-
+        $foods2 = Food::where('user_id', $userId)->where('category_id', 2)->orderBy('limit_date')->get();
         // category_idが3の場合
-        $foods3 = Food::where('user_id', $userId)->where('category_id', 3)->get();
+        $foods3 = Food::where('user_id', $userId)->where('category_id', 3)->orderBy('limit_date')->get();
 
         // dd($foodData);
         // $foodData = Food::get();
@@ -54,12 +109,12 @@ class FoodController extends Controller
         // 賞味期限日より以前の日付になったらbackground-colorの色を赤にする商品情報の数だけループ 
         foreach ($foodData as $data) {
             // 賞味期限日を取得
-            $limitDate = new Carbon($data->limit);
+            $limitDate = new Carbon($data->limit_date);
 
             // 通知日が今日の日付より前であれば、クラス名を追加
             if ($limitDate->isPast()) {
-                // if ($data->limit <= Carbon::now()->subDay()) {
-                $data->class = 'limit';
+                // if ($data->limit_date <= Carbon::now()->subDay()) {
+                $data->class = 'limit_date';
             }
             // 賞味期限日が3日以内の場合にクラス名（class）を追加する,lteは以下、gtはより大きい
             if ($limitDate->lte(now()->addDay(3)) && $limitDate->gte(now()->isFuture())) {
@@ -71,9 +126,9 @@ class FoodController extends Controller
         }
 
         foreach ($foods1 as $data) {
-            $limitDate = new Carbon($data->limit);
+            $limitDate = new Carbon($data->limit_date);
             if ($limitDate->isPast()) {
-                $data->class = 'limit';
+                $data->class = 'limit_date';
             }
             if ($limitDate->lte(now()->addDay(3)) && $limitDate->gte(now()->isFuture())) {
                 $data->class = 'limitAlert';
@@ -81,9 +136,9 @@ class FoodController extends Controller
         }
 
         foreach ($foods2 as $data) {
-            $limitDate = new Carbon($data->limit);
+            $limitDate = new Carbon($data->limit_date);
             if ($limitDate->isPast()) {
-                $data->class = 'limit';
+                $data->class = 'limit_date';
             }
             if ($limitDate->lte(now()->addDay(3)) && $limitDate->gte(now()->isFuture())) {
                 $data->class = 'limitAlert';
@@ -91,9 +146,9 @@ class FoodController extends Controller
         }
 
         foreach ($foods3 as $data) {
-            $limitDate = new Carbon($data->limit);
+            $limitDate = new Carbon($data->limit_date);
             if ($limitDate->isPast()) {
-                $data->class = 'limit';
+                $data->class = 'limit_date';
             }
             if ($limitDate->lte(now()->addDay(3)) && $limitDate->gte(now()->isFuture())) {
                 $data->class = 'limitAlert';
@@ -106,7 +161,8 @@ class FoodController extends Controller
             'foods1' => $foods1,
             'foods2' => $foods2,
             'foods3' => $foods3,
-            Food::find($request->id)
+            // 'sortOrder' => $sortOrder,
+            // Food::find($request->id)
         ];
         return view('/main', $datas);
     }
@@ -159,7 +215,7 @@ class FoodController extends Controller
             $foodData->info = $request->input('info');
             $foodData->image = $request->input('image');
             $foodData->category_id = $request->input('category_id');
-            $foodData->limit = $request->input('limit');
+            $foodData->limit_date = $request->input('limit_date');
             $foodData->alert = $request->input('alert');
 
             // カレントユーザーのIDを代入する
@@ -179,7 +235,7 @@ class FoodController extends Controller
         $newFood->info = $request->input('info');
         $newFood->image = $request->input('image');
         $newFood->category_id = $request->input('category_id');
-        $newFood->limit = $request->input('limit');
+        $newFood->limit_date = $request->input('limit_date');
         $newFood->alert = $request->input('alert');
         $newFood->user_id = Auth::user()->id;
         $newFood->timestamps = false;    // 追記 これがないと存在しないcreate_atカラムエラーが出る
@@ -216,7 +272,7 @@ class FoodController extends Controller
     //         "info" => $request->input('info'),
     //         "image" => $request->input('image'),
     //         "category_id" => $request->input('category_id'),
-    //         "limit" => $request->input('limit'),
+    //         "limit_date" => $request->input('limit_date'),
     //         "alert" => $request->input('alert'),
     //         "user_id" => Auth::user()->id,
     //         "timestamps" => false,

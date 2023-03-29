@@ -7,6 +7,8 @@ use App\Models\Food;
 // メール
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AlertMail;
+// LINE
+use App\Http\Controllers\LineController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +56,7 @@ Route::get('/foods/update/{id}', 'App\Http\Controllers\FoodController@foodUpdate
 Route::post('/foods/update/{id}', 'App\Http\Controllers\FoodController@update')->middleware(['auth', 'verified']);
 Route::post('/foods/delete/{id}', 'App\Http\Controllers\FoodController@delete')->middleware(['auth', 'verified']);
 
+
 // Route::get('foods/update/{foodId}', function () {
 //     return view('foods/update');
 // })->middleware(['auth', 'verified']);
@@ -70,9 +73,12 @@ Route::get('auth/verify-email', function () {
     return view('auth/verify-email');
 });
 
-Route::get('line', function () {
-    return view('line');
-})->middleware(['auth', 'verified']);
+Route::get('line', [LineController::class, 'delete'])->middleware(['auth', 'verified']);
+
+Route::post('line', [LineController::class, 'create'])->middleware(['auth', 'verified']);
+Route::delete('line', [LineController::class, 'destroy'])->middleware(['auth', 'verified']);
+Route::put('line', [LineController::class, 'update'])->middleware(['auth', 'verified']);
+
 
 Route::get('create', function () {
     return view('create');

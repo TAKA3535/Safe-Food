@@ -23,15 +23,15 @@
     <!-- <label for="category">ジャンル登録:</label> -->
     <p>ジャンル登録</p>
     <select name="category_id" id="category" required>
-        <option value="" name="category_id" selected hidden>ジャンル登録</option>
+        <option value="" name="category_id" selected disabled>ジャンル登録</option>
         <option value=1>冷蔵</option>
         <option value=2>冷凍</option>
         <option value=3>常温</option>
     </select><br>
 
-    <!-- <label for="limit">賞味期限日:</label> -->
+    <!-- <label for="limit_date">賞味期限日:</label> -->
     <p> 賞味期限日</p>
-    <input type="date" id="limit" name="limit" value="{{ $foodData->limit }}" required><br>
+    <input type="date" id="limit_date" name="limit_date" value="{{ $foodData->limit_date }}" required><br>
 
     <!-- <label for="date">通知日設定:</label> -->
     <p> 通知日設定</p>

@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'line' => [
+        'channel_access_token' => env('aS/bRdr0qd4OQTLDKZ+yL0LiEBpxsFiSjJGQRchdiKORpNLPNVnKRsCdlqAIr5mDyO963+hFltDrpZ98BkLqi0kY2LFGBernZwhs8+MGkMB9F1YNMwRyJR2wBotTd3QcMRbWaqY/iXec9t+cLoQDHQdB04t89/1O/w1cDnyilFU='),
+        'channel_secret' => env('54dfad0ae02e1025b4d7bc7cd2427338'),
+    ],
 ];

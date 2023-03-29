@@ -27,8 +27,9 @@
     <!-- Styles -->
     <br>
 
+    <!-- プルダウンでジャンル別表示切り替え -->
     <script>
-        function showContent(selectElement) {
+        function showCategory(selectElement) {
             var selectedValue = selectElement.value;
             var contents = document.getElementsByClassName("wraptest");
             for (var i = 0; i < contents.length; i++) {
@@ -39,6 +40,38 @@
                 } else {
                     content.style.display = "none";
                 }
+            }
+            var url = new URL(window.location.href);
+            url.searchParams.set('category_id', selectedValue);
+            window.history.pushState(null, '', url);
+        }
+    </script>
+
+    <!-- 昇順降順ソート切り替え -->
+    <script>
+        let isAscending = true;
+
+        function toggleSort() {
+            if (isAscending) {
+                document.getElementById('sort-button').textContent = '賞味期限短い順';
+                isAscending = false;
+                // 降順にソートする処理
+                fetch('/foods?sort=desc')
+                    .then(response => response.json())
+                    .then(data => {
+                        // 取得したデータを表示する処理
+                        location.reload();
+                    });
+            } else {
+                document.getElementById('sort-button').textContent = '賞味期限長い順';
+                isAscending = true;
+                // 昇順にソートする処理
+                fetch('/foods?sort=asc')
+                    .then(response => response.json())
+                    .then(data => {
+                        // 取得したデータを表示する処理
+                        location.reload();
+                    });
             }
         }
     </script>
@@ -117,18 +150,30 @@
         </h1>
         <nav>
 
-            <select name="category_id" onchange="showContent(this)">
+            <select name="category_id" onchange="showCategory(this)">
                 <option value="full">全ジャンル</option>
                 <option value="0">冷蔵</option>
                 <option value="1">冷凍</option>
                 <option value="2">常温 </option>
             </select>
 
-            <select>
+            <!-- <select>
                 <option value="">並び替え</option>
                 <option value="">昇順</option>
                 <option value="food">降順</option>
-            </select>
+            </select> -->
+
+            <!-- {{-- --}} で囲んで強制コメントアウトにしている  -->
+            {{-- <a href="?sort_order={{ $sortOrder === 'asc' ? 'desc' : 'asc' }}">limit_date</a> --}}
+            <a href="?sort_order={{'asc' ? 'desc' : 'asc' }}">limit</a>
+
+            {{-- 昇順にソートするリンク --}}
+            <a href="{{ url('/main?sort=asc') }}">昇順</a>
+
+            {{-- 降順にソートするリンク --}}
+            <a href="{{ url('/main?sort=desc') }}">降順</a>
+
+            <button id="sort-button" onclick="toggleSort()">賞味期限短い順</button>
         </nav><br>
 
         <nav>
@@ -153,10 +198,6 @@
     <br>
     <div class="background">
         <div>
-            <!-- <img src="{{ url('cooking_sauce.png') }}" width="250" height="250"> -->
-            <!-- 上下どっちの書き方でもOK -->
-            <!-- <img src="{{ asset('cooking_syouyu_bottle.png') }}" width="250" height="250"> -->
-
             <!-- <ul> -->
             <div id="full" class="wraptest">
                 @foreach ($foodData as $data)
@@ -164,7 +205,7 @@
                     <a href="/foods/update/{{$data->id}}"><img class="size" src="{{ $data->image }}" alt="商品画像"></a>
 
                     <li>商品情報：{{ $data->info }}</li>
-                    <li>賞味期限日：{{ $data->limit }}</li>
+                    <li>賞味期限日：{{ $data->limit_date }}</li>
                     <li>通知日：{{ $data->alert }}</li>
                 </div>
 
@@ -178,7 +219,7 @@
                 <div class="item {{$data->class}}">
                     <a href="/foods/update/{{$data->id}}"><img class="size" src="{{ $data->image }}" alt="商品画像"></a>
                     <li>商品情報：{{ $data->info }}</li>
-                    <li>賞味期限日：{{ $data->limit }}</li>
+                    <li>賞味期限日：{{ $data->limit_date }}</li>
                     <li>通知日：{{ $data->alert }}</li>
                 </div>
                 @endforeach
@@ -188,7 +229,7 @@
                 <div class="item {{$data->class}}">
                     <a href="/foods/update/{{$data->id}}"><img class="size" src="{{ $data->image }}" alt="商品画像"></a>
                     <li>商品情報：{{ $data->info }}</li>
-                    <li>賞味期限日：{{ $data->limit }}</li>
+                    <li>賞味期限日：{{ $data->limit_date }}</li>
                     <li>通知日：{{ $data->alert }}</li>
                 </div>
                 @endforeach
@@ -198,7 +239,7 @@
                 <div class="item {{$data->class}}">
                     <a href="/foods/update/{{$data->id}}"><img class="size" src="{{ $data->image }}" alt="商品画像"></a>
                     <li>商品情報：{{ $data->info }}</li>
-                    <li>賞味期限日：{{ $data->limit }}</li>
+                    <li>賞味期限日：{{ $data->limit_date }}</li>
                     <li>通知日：{{ $data->alert }}</li>
                 </div>
                 @endforeach

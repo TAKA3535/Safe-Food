@@ -10,8 +10,8 @@ class Food extends Model
     use HasFactory;
 
     protected $table = 'foods';
-    public $timestamps = false;
-    // protected $dates = ['limit', 'alert'];
+    // public $timestamps = false;
+    // protected $dates = ['limit_date', 'alert'];
 
     // 商品追加ホワイトリスト
     protected $fillable = [
@@ -19,7 +19,7 @@ class Food extends Model
         'info',
         'image',
         'category_id',
-        'limit',
+        'limit_date',
         'alart',
         'user_id',
     ];
@@ -31,10 +31,10 @@ class Food extends Model
     }
 
 
-    public function category()
-    {
-        return $this->belongsTo('App\Models\Category');
-    }
+    // public function category()
+    // {
+    //     return $this->belongsTo('App\Models\Category');
+    // }
 
     // public function 
 }
