@@ -11,7 +11,7 @@ use App\Models\User;
 use App\Models\Food;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
+use App\Models\Option;
 
 class SendEmails extends Command
 {
@@ -20,25 +20,48 @@ class SendEmails extends Command
 
     public function handle()
     {
-        $foodData = Food::all();
+        // $foodData = Food::all();
+        // $foodData = Food::where('user_id', $userId)->where('alert', '=', date('Y-m-d'))->get();
+        $foodData = Food::where('alert', '=', date('Y-m-d'))->get();
+        $count = $foodData->count();
         foreach ($foodData as $data) {
             $alertDate = new Carbon($data->alert);
 
             if (date('Y-m-d') == $alertDate->format('Y-m-d')) {
                 $mail = new AlertMail();
-                // Mail::to('t.m.guestmail@gmail.com')->send($mail);
-
-                // $emails = User::pluck('email');
-                // foreach ($emails as $email) {
-                //     Mail::to($email)->send($mail);
-                // }
                 // Foodモデルに紐付いたUserのemailカラムからメールアドレスを取得して送信
                 $email = $data->user->email;
                 Mail::to($email)->send($mail);
                 $this->info('Mailing has been sent!');
             }
         }
+
+        foreach ($foodData as $data) {
+            $alertDate = new Carbon($data->alert);
+
+            if (date('Y-m-d') == $alertDate->format('Y-m-d')) {
+                $options = Option::where('user_id', $data->user->id)->where('enable', true)->get();
+                foreach ($options as $option) {
+                    $emailAddress = $option->user->email;
+                    $mail = new AlertMail();
+                    Mail::to($email)->send($mail);
+                }
+            }
+        }
     }
+    //     $users = User::all();
+
+    //     foreach ($users as $user) {
+    //         $foodCount = Food::where('user_id', $user->id)->count();
+    //         $mailData = [
+    //             'name' => $user->name,
+    //             'foodCount' => $foodCount
+    //         ];
+    //         $mail = new AlertMail($mailData);
+    //         Mail::to($foodCount->$user->email)->send($mail);
+    //         $this->info('Mailing has been sent!');
+    //     }
+    // }
 }
     // 実行コマンド：sail php artisan schedule:work
 

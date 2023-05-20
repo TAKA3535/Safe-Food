@@ -15,7 +15,7 @@ use App\Models\Option;
 class SendLine extends Command
 {
     protected $signature = 'sendlines';
-    protected $description = 'Send message to user.';
+    protected $description = 'Line送信';
 
     public function handle()
     {
@@ -30,11 +30,10 @@ class SendLine extends Command
                 $accessToken = env('LINE_ACCESS_TOKEN');
                 $channelSecret = env('LINE_CHANNEL_SECRET');
                 // $lineUserId = 'U91f9032d0beeafa3d217f59adc551738'; // 送信先のLINEユーザーIDを設定する
-                // $lineUserId = $data->user->line_user_id;
                 // ->where('enable', true)は、enableがtrueであるOptionsのみを多分取得
-                // $lineUserId = $data->user->options->where('enable', true)->pluck('line_user_id')->first();
-                $lineUserId = '';
                 $options = Option::where('user_id', $data->user->id)->where('enable', true)->get();
+                // $options = Option::where('user_id', $data->user_id)->where('enable', true)->get();
+
                 foreach ($options as $option) {
                     $lineUserId = $option->line_user_id;
 
@@ -44,16 +43,16 @@ class SendLine extends Command
                         return;
                     }
 
-                    $httpClient = new CurlHTTPClient($accessToken);
-                    $bot = new LINEBot($httpClient, ['channelSecret' => $channelSecret]);
-
                     // LINEのユーザーIDが存在しない場合はエラーを出力する
                     if (empty($lineUserId)) {
                         $this->error('LINE User ID is not set.');
                         return;
                     }
 
-                    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('テスト送信');
+                    $httpClient = new CurlHTTPClient($accessToken);
+                    $bot = new LINEBot($httpClient, ['channelSecret' => $channelSecret]);
+
+                    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('通知日のお知らせです。');
 
                     $response = $bot->pushMessage($lineUserId, $textMessageBuilder);
                     if ($response->isSucceeded()) {

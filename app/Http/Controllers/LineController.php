@@ -12,12 +12,21 @@ class LineController extends Controller
 {
     public function create(Request $request)
     {
-        $line = new Option;
-        $line->line_user_id = $request->input('line_user_id');
-        // $line->enable = 'true';
-        $line->user_id = Auth::user()->id;
-        $line->timestamps = false;
-        $line->save();
+        if ($request->has('line_user_id')) {
+            $line = new Option;
+            $line->line_user_id = $request->input('line_user_id');
+            $line->line_user_name = $request->input('line_user_name');
+            // $line->enable = 'true';
+            $line->user_id = Auth::user()->id;
+            $line->timestamps = false;
+            $line->save();
+        } else {
+            $email = new Option;
+            $email->email = $request->input('email');
+            $email->user_id = Auth::user()->id;
+            $email->timestamps = false;
+            $email->save();
+        }
 
 
         // return response()->json(['message' => 'Line user ID has been saved.']);
@@ -33,12 +42,18 @@ class LineController extends Controller
 
     public function delete()
     {
-        $lines = Option::pluck('line_user_id', 'id');
-        return view('line', compact('lines'));
-        // 下だとダメだった
-        // $lines = Option::all();
-        // return view('line', ['lines' => $lines]);
-
+        // $lines = Option::pluck('line_user_id', 'id', 'enable');
+        // // dd($lines);
+        // return view('line', compact('lines'));
+        $userId = Auth::id();
+        $lines = Option::select('line_user_id', 'line_user_name', 'id', 'enable', 'user_id')->where('user_id', $userId)->whereNotNull('line_user_id')->get();
+        $mails = Option::select('email', 'id', 'enable', 'user_id')->where('user_id', $userId)->whereNotNull('email')->get();
+        $datas = [
+            'lines' => $lines,
+            'mails' => $mails,
+        ];
+        // dd($lines);
+        return view('line', $datas);
     }
 
     public function destroy(Request $request)
@@ -49,10 +64,25 @@ class LineController extends Controller
 
     public function update(Request $request)
     {
-        $line = Option::find($request->input('line_id'));
-        $line->enable = $request->input('enable') === 'true';
-        $line->timestamps = false;
-        $line->save();
+        if ($request->has('line_id')) {
+            $line = Option::find($request->input('line_id'));
+            $line->enable = $request->input('enable') === 'true';
+            // $line->line_user_name = $request->input('line_name');
+            $line->timestamps = false;
+            $line->save();
+            return redirect()->back()->with('success', 'Line user ID has been updated.');
+        } else {
+            $line = Option::find($request->input('mail'));
+            $line->enable = $request->input('enable') === 'true';
+            // $line->line_user_name = $request->input('line_name');
+            $line->timestamps = false;
+            $line->save();
+        }
+        // $line = Option::find($request->input('line_id'));
+        // $line->enable = $request->input('enable') === 'true';
+        // // $line->line_user_name = $request->input('line_name');
+        // $line->timestamps = false;
+        // $line->save();
         return redirect()->back()->with('success', 'Line user ID has been updated.');
     }
 }

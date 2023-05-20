@@ -15,6 +15,7 @@ class Option extends Model
         'line_user_id',
         'enable',
         'user_id',
+        'line_user_name',
     ];
     public function user()
     {

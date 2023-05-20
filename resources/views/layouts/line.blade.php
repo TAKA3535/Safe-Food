@@ -13,8 +13,10 @@
     <!-- Scripts -->
     <!-- <script src="{{ mix('js/app.js') }}" defer></script> -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    <!-- @vite( 'resources/js/app.js') -->
+    <!-- @vite('resources/js/app.js') -->
     <link rel="stylesheet" href="/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -23,6 +25,67 @@
 
     <!-- Styles -->
     <br>
+
+    <script>
+        $(function() {
+            var body = $("body");
+            var flag = true;
+
+            $(document).on("mousemove", function(e) {
+                if (flag) {
+                    var x = e.clientX;
+                    var y = e.clientY;
+
+                    var star = $("<span>").attr("class", "star");
+                    star.css({
+                        "top": y + "px",
+                        "left": x + "px"
+                    });
+                    body.prepend(star);
+                    setTimeout(function() {
+                        star.remove();
+                    }, 1000);
+
+                    flag = false;
+                    setTimeout(function() {
+                        flag = true;
+                    }, 100);
+                }
+            });
+        });
+    </script>
+    <script>
+        // ページ読み込み時に保存された選択状態を復元する
+        window.onload = function() {
+            var selectedValue = sessionStorage.getItem('selectedValue');
+            if (selectedValue) {
+                var radio = document.getElementById(selectedValue);
+                radio.checked = true;
+                showCategory(radio);
+            }
+        };
+
+        function showCategory(selectElement) {
+            var selectedValue = selectElement.value;
+            var contents = document.getElementsByClassName("sort");
+            // var contents = document.querySelectorAll("#wraptest");
+            for (var i = 0; i < contents.length; i++) {
+                var content = contents[i];
+                if (content.id == selectedValue) {
+                    // content.style.display = "block";
+                    content.style.display = "block";
+                } else {
+                    content.style.display = "none";
+                }
+            }
+            var url = new URL(window.location.href);
+            url.searchParams.set('category_id', selectedValue);
+            window.history.pushState(null, '', url);
+            
+            // 選択された値をセッションストレージに保存する
+            sessionStorage.setItem('selectedValue', selectedValue);
+        }
+    </script>
 
     <style>
         header {
@@ -35,7 +98,8 @@
             display: flex;
             align-items: center;
             border: 1px solid #7effb2;
-
+            left: 0;
+            right: 0;
         }
 
         a {
@@ -92,7 +156,8 @@
                 <li> <button class="styled" type="button" onclick="location.href='/foods/create'">商品登録</button>
                 </li>
                 <!-- <li><a href="/foods/create">商品登録</a></li> -->
-                <li><a href="/profile"><img src="kkrn_icon_user_8.png" alt="ユーザーアイコン" width="30" height="30"></a></li>
+                <li><a href="/profile"><img src="kkrn_icon_user_8.png" alt="ユーザーアイコン" width="30" height="30"></a>
+                </li>
             </ul>
         </nav>
     </header>

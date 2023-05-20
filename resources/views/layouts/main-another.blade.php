@@ -13,8 +13,9 @@
     <!-- Scripts -->
     <!-- <script src="{{ mix('js/app.js') }}" defer></script> -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    <!-- @vite( 'resources/js/app.js') -->
+    <!-- @vite('resources/js/app.js') -->
     <link rel="stylesheet" href="/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -22,6 +23,35 @@
 
     <!-- Styles -->
     <!-- <link href="{{ mix('css/app.css') }}" rel="stylesheet"> -->
+
+    <script>
+        $(function() {
+            var body = $("body");
+            var flag = true;
+
+            $(document).on("mousemove", function(e) {
+                if (flag) {
+                    var x = e.clientX;
+                    var y = e.clientY;
+
+                    var star = $("<span>").attr("class", "star");
+                    star.css({
+                        "top": y + "px",
+                        "left": x + "px"
+                    });
+                    body.prepend(star);
+                    setTimeout(function() {
+                        star.remove();
+                    }, 1000);
+
+                    flag = false;
+                    setTimeout(function() {
+                        flag = true;
+                    }, 100);
+                }
+            });
+        });
+    </script>
 
     <style>
         header {
@@ -37,7 +67,8 @@
             display: flex;
             align-items: center;
             border: 1px solid #7effb2;
-
+            left: 0;
+            right: 0;
         }
 
         a {
@@ -93,7 +124,8 @@
                 <li> <button class="styled" type="button" onclick="location.href='/foods/create'">商品登録</button>
                 </li>
                 <!-- <li><a href="/foods/create">商品登録</a></li> -->
-                <li><a href="/profile"><img src="/kkrn_icon_user_8.png" alt="ユーザーアイコン" width="30" height="30"></a></li>
+                <li><a href="/profile"><img src="/kkrn_icon_user_8.png" alt="ユーザーアイコン" width="30"
+                            height="30"></a></li>
             </ul>
         </nav>
     </header>

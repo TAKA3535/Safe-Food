@@ -6,7 +6,7 @@
     <br>
     <!-- <label for="info">商品情報:</label> -->
     <p>商品情報</p>
-    <input type="text" id="info" name="info" required value="{{$foodData->info}}" placeholder="商品情報を入力"><br>
+    <input type="search" class="clear" id="info" name="info" required value="{{$foodData->info}}" placeholder="商品情報を入力"><br>
 
     <!-- フォームで選択した画像 -->
     <div class="line" >
@@ -22,12 +22,15 @@
 
     <!-- <label for="category">ジャンル登録:</label> -->
     <p>ジャンル登録</p>
-    <select name="category_id" id="category" required>
+    {{-- <select name="category_id" id="category" required>
         <option value="" name="category_id" selected disabled>ジャンル登録</option>
         <option value=1>冷蔵</option>
         <option value=2>冷凍</option>
         <option value=3>常温</option>
-    </select><br>
+    </select><br> --}}
+    <input type="radio" name="category_id" value="0" required>冷蔵
+    <input type="radio" name="category_id" value="1" required>冷凍
+    <input type="radio" name="category_id" value="2" required>常温
 
     <!-- <label for="limit_date">賞味期限日:</label> -->
     <p> 賞味期限日</p>

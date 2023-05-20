@@ -8,6 +8,8 @@ use Illuminate\Mail\Mailable;
 // use Illuminate\Mail\Mailables\Content;
 // use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Food;
+
 
 class AlertMail extends Mailable
 {
@@ -24,8 +26,12 @@ class AlertMail extends Mailable
 
     public function build()
     {
-        return $this->view('alertmails') //メール本文呼び出し
-            ->subject('賞味期限のお知らせ'); //件名
+        $foodData = Food::where('alert', '=', date('Y-m-d'))->get();
+        // $foodData = Food::where('user_id', $foodData->user->id)->get();
+        $count = $foodData->count();
+        // dd($count);
+        return $this->view('alertmails',['count'=>$count]) //メール本文呼び出し
+            ->subject('通知日のお知らせ'); //件名
     }
 
     /**

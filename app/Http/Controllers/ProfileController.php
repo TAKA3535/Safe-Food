@@ -53,7 +53,9 @@ class ProfileController extends Controller
         Auth::logout();
 
         // ユーザーが所有する全ての食品データを別の場所に移動
-        Food::where('user_id', $user->id)->update(['user_id' => null, 'updated_at' => false]);
+        // Food::where('user_id', $user->id)->update(['user_id' => null, 'updated_at' => false]);
+        Food::where('user_id', $user->id)->update(['user_id' => null, 'updated_at' => null]);
+
         // updated_at を無効にした
 
         $user->delete();

@@ -107,3 +107,86 @@ class FoodController extends Controller
         return view('/main', $datas);
     }
 }
+
+
+
+
+
+@extends('layouts.main-another')
+
+@section('content')
+<form class="center" action="/main" method="post">
+    <div class="buttons">
+        <p>画像選択</p>
+        <input type="file" name="image" id="input" value="商品イラスト選択" required>
+    </div><br>
+    <input type="submit" class="styled" value="商品を登録">
+@endsection
+
+
+<tr>
+                    <th class="borderCount" tabindex="0">
+                        <button type="button" onclick="location.href='/main'">登録した全ての食品(賞味期限切れ除く)</button>
+                    </th>
+                    <th class="borderCount">
+                        <button type="button" onclick="location.href='/main?category=1'">蔵食品(賞味期限切れ除く)</button>
+                    </th>
+                    <th class="borderCount">
+                        <button type="button" onclick="location.href='/main?category=2'">冷凍食品(賞味期限切れ除く)</button>
+                    </th>
+                    <th class="borderCount">
+                        <button type="button" onclick="location.href='/main?category=3'">常温食品(賞味期限切れ除く)</button>
+                    </th>
+                    <th class="borderCount">
+                        <button type="button" onclick="location.href='/main?category=4'">登録した全ての食品(賞味期限切れ除く)</button>
+                    </th>
+                    <th class="borderCount">
+                        <button type="button" onclick="location.href='/main?category=5'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通知日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </th>
+                </tr>
+
+
+
+blade
+<tr>
+<th class="borderCount">
+    {{-- <a href="/main" onclick="changeBackgroundColor(this)" class="{{ Request::fullUrlIs('http://localhost/main') ? 'activefull' : '' }}">登録した全ての食品(賞味期限切れ除く)</a> --}}
+    {{-- <button onclick="showCategory('full')" >登録した食品(賞味期限切れ除く)</button> --}}
+    <button type="button" onclick="location.href='/main'" >登録した全ての食品(賞味期限切れ除く)</button>
+    {{-- <button id="myButton" onclick="showCategory(this.value)" value="full">登録した食品(賞味期限切れ除く)</button> --}}
+</th>
+<th class="borderCount">
+    {{-- <a href="/main?category=1">冷蔵食品(賞味期限切れ除く)</a> --}}
+    <button type="button" onclick="location.href='/main?category=1'">蔵食品(賞味期限切れ除く)</button>
+
+    {{-- <button onclick="showCategory('0')">冷蔵食品</button> --}}
+    {{-- <button onclick="showCategory(this.value)" value="0">冷蔵食品(賞味期限切れ除く)</button> --}}
+
+</th>
+<th class="borderCount">
+    <button type="button" onclick="location.href='/main?category=2'">冷凍食品(賞味期限切れ除く)</button>
+    {{-- <a href="/main?category=2">冷凍食品(賞味期限切れ除く)</a> --}}
+
+    {{-- <button onclick="showCategory(this.value)" value="1">冷蔵食品(賞味期限切れ除く)</button> --}}
+</th>
+<th class="borderCount">
+    {{-- <a href="/main?category=3">常温食品(賞味期限切れ除く)</a> --}}
+    <button type="button" onclick="location.href='/main?category=3'">常温食品(賞味期限切れ除く)</button>
+
+    {{-- <button onclick="showCategory(this.value)" value="2">常温食品(賞味期限切れ除く)</button> --}}
+</th>
+<th class="borderCount">
+    <button type="button" onclick="location.href='/main?category=4'">登録した全ての食品(賞味期限切れ除く)</button>
+
+    {{-- <a href="/main?category=4">賞味期限切れの食品(賞味期限切れ除く)</a> --}}
+    {{-- <a href="/main?category=4"
+        class="{{ Request::fullUrlIs('http://localhost/main?category=4') ? 'active' : '' }}">賞味期限切れの食品</a> --}}
+    {{-- <button onclick="showCategory(this.value)" value="3">賞味期限切れの食品(賞味期限切れ除く)</button> --}}
+</th>
+<th class="borderCount">
+    {{-- <a href="/main?category=5">通知日</a> --}}
+    <button type="button"
+        onclick="location.href='/main?category=5'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通知日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    {{-- <button onclick="showCategory(this.value)" value="2">常温食品(賞味期限切れ除く)</button> --}}
+</th>
+</tr>

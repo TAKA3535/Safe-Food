@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->id();
             $table->string('line_user_id', 50)->nullable();
+            $table->string('line_user_name', 10)->nullable();
             // $table->string('enable', 5);
             $table->boolean('enable')->default(true);
             $table->foreignId('user_id')->constrained('users');

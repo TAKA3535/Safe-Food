@@ -29,6 +29,8 @@
             background-color: #fff;
             display: flex;
             align-items: center;
+            left: 0;
+            right: 0;
         }
 
         a {
@@ -70,12 +72,13 @@
 <body>
     <header>
         <h1>
-        <a href="/main" class="logo">Safe Food</a>
+            <a href="/main" class="logo">Safe Food</a>
         </h1>
         <nav class="pc-nav">
             <ul>
                 <li><a href="/register">新規登録</a></li>
-                <li><a href="/profile"><img src="kkrn_icon_user_8.png" alt="ユーザーアイコン" width="30" height="30"></a></li>
+                <li><a href="/profile"><img src="kkrn_icon_user_8.png" alt="ユーザーアイコン" width="30" height="30"></a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -86,7 +89,8 @@
         <main class="bg-home d-flex align-items-center w-100 h-100">
             <div class="container">
                 <div class="row">
-                    <div class="col-11 col-lg-10 jumbotron mx-auto mt-4" style="box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2)">
+                    <div class="col-11 col-lg-10 jumbotron mx-auto mt-4"
+                        style="box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2)">
                         @yield('content')
                     </div>
                 </div>
