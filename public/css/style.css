@@ -644,3 +644,7 @@ button.selected {
     display: flex;
     justify-content: center;
 }
+
+.error-message {
+    color: red;
+}

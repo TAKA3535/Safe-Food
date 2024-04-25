@@ -10,10 +10,7 @@ class Food extends Model
     use HasFactory;
 
     protected $table = 'foods';
-    // public $timestamps = false;
-    // protected $dates = ['limit_date', 'alert'];
 
-    // 商品追加ホワイトリスト
     protected $fillable = [
         'id',
         'info',
@@ -24,17 +21,13 @@ class Food extends Model
         'user_id',
     ];
 
-    // Userモデルを親に持つことを明記
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
-
-    // public function category()
-    // {
-    //     return $this->belongsTo('App\Models\Category');
-    // }
-
-    // public function 
+    public function getDisplayInfoAttribute(): string
+    {
+        return $this->info . '最高';
+    }
 }

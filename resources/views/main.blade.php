@@ -76,158 +76,35 @@
             }
         }
 
-        // $(".scroll-top").hide();
 
-        // $(window).scroll(function() {
-        //     if ($(this).scrollTop() > 100) { //スクロールするピクセル数
-        //         $(".scroll-top").fadeIn();
-        //     } else {
-        //         $(".scroll-top").fadeOut();
-        //     }
-        // });
+        <
+        script >
+            $(function() {
+                var body = $("body");
+                var flag = true;
 
-        // $(".scroll-top").click(function() {
-        //     $("html, body").animate({
-        //         scrollTop: 0
-        //     }, ページトップに戻る秒数);
-        //     return false;
-        // });
+                $(document).on("mousemove", function(e) {
+                    if (flag) {
+                        var x = e.clientX;
+                        var y = e.clientY;
 
-        $(document).ready(function() {
-            $(window).scroll(function() {
-                if ($(this).scrollTop() > 50) {
-                    $('.scroll-top-btn').addClass('active');
-                } else {
-                    $('.scroll-top-btn').removeClass('active');
-                }
-            });
-            $('.scroll-top-btn').click(function() {
-                $('html, body').animate({
-                    scrollTop: 0
-                }, 500);
-                return false;
-            });
-        });
-    </script>
+                        var star = $("<span>").attr("class", "star");
+                        star.css({
+                            "top": y + "px",
+                            "left": x + "px"
+                        });
+                        body.prepend(star);
+                        setTimeout(function() {
+                            star.remove();
+                        }, 1000);
 
-    <!-- <script>
-        function showCategory(selectElement) {
-            var selectedValue = selectElement.value;
-            var contents = document.getElementsByClassName("sort");
-            for (var i = 0; i < contents.length; i++) {
-                var content = contents[i];
-                if (content.id == selectedValue) {
-                    content.style.display = "flex";
-                } else {
-                    content.style.display = "none";
-                }
-            }
-            var url = new URL(window.location.href);
-            url.searchParams.set('category_id', selectedValue);
-            window.history.pushState(null, '', url);
-
-            // クッキーにカテゴリーと並び順を保存
-            document.cookie = "selectedCategory=" + selectedValue;
-            document.cookie = "sortOrder=" + document.getElementById(selectedValue).getAttribute('data-sort');
-        }
-
-        // ページ読み込み時にクッキーを参照して初期表示を設定
-        window.onload = function() {
-            var categoryCookie = document.cookie.replace(/(?:(?:^|.*;\s*)selectedCategory\s*\=\s*([^;]*).*$)|^.*$/,
-                "$1");
-            var sortOrderCookie = document.cookie.replace(/(?:(?:^|.*;\s*)sortOrder\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-
-            if (categoryCookie && sortOrderCookie) {
-                var selectElement = document.getElementsByName("category_id")[0];
-                selectElement.value = categoryCookie;
-                var contents = document.getElementsByClassName("sort");
-                for (var i = 0; i < contents.length; i++) {
-                    var content = contents[i];
-                    if (content.id == categoryCookie) {
-                        content.style.display = "flex";
-                    } else {
-                        content.style.display = "none";
+                        flag = false;
+                        setTimeout(function() {
+                            flag = true;
+                        }, 100);
                     }
-                }
-                var selectedSort = document.getElementById(categoryCookie + sortOrderCookie);
-                if (selectedSort) {
-                    selectedSort.style.display = "block";
-                }
-            }
-        }
-    </script> -->
-
-    <!-- 昇順降順ソート切り替え -->
-    {{-- <script>
-        let isAscending = true;
-
-        function toggleSort() {
-            if (isAscending) {
-                document.getElementById('sort-button').textContent = '賞味期限短い順';
-                isAscending = false;
-                // 降順にソートする処理
-                fetch('/foods?sort=desc')
-                    .then(response => response.json())
-                    .then(data => {
-                        // 取得したデータを表示する処理
-                        location.reload();
-                    });
-            } else {
-                document.getElementById('sort-button').textContent = '賞味期限長い順';
-                isAscending = true;
-                // 昇順にソートする処理
-                fetch('/foods?sort=asc')
-                    .then(response => response.json())
-                    .then(data => {
-                        // 取得したデータを表示する処理
-                        location.reload();
-                    });
-            }
-        }
-    </script> --}}
-
-    <!-- <script>
-        function showContent(selectElement) {
-            var selectedValue = selectElement.value;
-            var contents = document.getElementsByClassName("wraptest");
-            for (var i = 0; i < contents.length; i++) {
-                var content = contents[i];
-                if (content.id == selectedValue || selectedValue == "full") {
-                    content.style.display = "block";
-                } else {
-                    content.style.display = "none";
-                }
-            }
-        }
-    </script> -->
-
-    <script>
-        $(function() {
-            var body = $("body");
-            var flag = true;
-
-            $(document).on("mousemove", function(e) {
-                if (flag) {
-                    var x = e.clientX;
-                    var y = e.clientY;
-
-                    var star = $("<span>").attr("class", "star");
-                    star.css({
-                        "top": y + "px",
-                        "left": x + "px"
-                    });
-                    body.prepend(star);
-                    setTimeout(function() {
-                        star.remove();
-                    }, 1000);
-
-                    flag = false;
-                    setTimeout(function() {
-                        flag = true;
-                    }, 100);
-                }
+                });
             });
-        });
     </script>
 
     <script>
@@ -341,47 +218,9 @@
             <a href="/main" class="logo">Safe Food</a>
         </h1>
         <nav>
-            {{-- <div style="display: flex;">
-                <select name="category_id" onchange="showCategory(this)">
-                    <option value="full">全ジャンル</option>
-                    <option value="0">冷蔵</option>
-                    <option value="1">冷凍</option>
-                    <option value="2">常温 </option>
-                    <option value="3">賞味期限切れ </option>
-                </select>
-
-                <input type="radio" name="category_id" onchange="showCategory(this)" value="full">全ジャンル
-                <input type="radio" name="category_id" onchange="showCategory(this)" value="0">冷蔵
-                <input type="radio" name="category_id" onchange="showCategory(this)" value="1">冷凍
-                <input type="radio" name="category_id" onchange="showCategory(this)" value="2">常温
-                <input type="radio" name="category_id" onchange="showCategory(this)" value="3">賞味期限切れ --}}
-
-            <!-- <select>
-                <option value="">並び替え</option>
-                <option value="">昇順</option>
-                <option value="food">降順</option>
-            </select> -->
-
-            <!-- {{-- --}} で囲んで強制コメントアウトにしている  -->
-            {{-- <a href="?sort_order={{ $sortOrder === 'asc' ? 'desc' : 'asc' }}">limit_date</a> --}}
-            <!-- <a href="?sort_order={{ 'asc' ? 'desc' : 'asc' }}">limit</a> -->
-
-            <!-- <div class="sort" id="full" style="display: none;">
-                    <a href="#" class="sort-link" data-href="{{ url('/main?sort=asc') }}" onclick="updateSortLinks('asc'); return false;">昇順</a>
-                    <a href="#" class="sort-link" data-href="{{ url('/main?sort=desc') }}" onclick="updateSortLinks('desc'); return false;">降順</a>
-                </div>
-                <div class="sort" id="0" style="display: none;">
-                    <a href="#" class="sort-link" data-href="{{ url('/main?sort=asc0') }}" onclick="updateSortLinks('asc0'); return false;">昇順</a>
-                    <a href="#" class="sort-link" data-href="{{ url('/main?sort=desc0') }}" onclick="updateSortLinks('desc0'); return false;">降順</a>
-                </div>
-                <div class="sort" id="1" style="display: none;">
-                    <a href="#" class="sort-link" data-href="{{ url('/main?sort=asc1') }}" onclick="updateSortLinks('asc1'); return false;">昇順</a>
-                    <a href="#" class="sort-link" data-href="{{ url('/main?sort=desc1') }}" onclick="updateSortLinks('desc1'); return false;">降順</a>
-                </div>
-                <div class="sort" id="2" style="display: none;">
-                    <a href="#" class="sort-link" data-href="{{ url('/main?sort=asc2') }}" onclick="updateSortLinks('asc2'); return false;">昇順</a>
-                    <a href="#" class="sort-link" data-href="{{ url('/main?sort=desc2') }}" onclick="updateSortLinks('desc2');return false;">昇順</a>
-                </div> -->
+            <a href={{ route('foods.test-name.show', ['id' => $userId]) }}>testShow</a>
+            <br>
+            <a href={{ route('foods.form', ['id' => $userId]) }}>申請画面</a>
 
 
             <div class="sort" id="full">
@@ -433,8 +272,8 @@
                 <li> <button class="styled" type="button" onclick="location.href='/foods/create'">商品登録</button>
                 </li>
                 <!-- <li><a href="/foods/create">商品登録</a></li> -->
-                <li><a href="/profile"><img src="kkrn_icon_user_8.png" alt="ユーザーアイコン" width="30"
-                            height="30"></a></li>
+                <li><a href="/profile"><img src="kkrn_icon_user_8.png" alt="ユーザーアイコン" width="30" height="30"></a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -497,26 +336,26 @@
                     </th>
                 </tr>
 
-                <tr>
+                {{-- <tr>
                     <td class="borderCount">{{ $count }}件</td>
                     <td class="borderCount">{{ $count1 }}件</td>
                     <td class="borderCount">{{ $count2 }}件</td>
                     <td class="borderCount">{{ $count3 }}件</td>
                     <td class="borderCount">{{ $count4 }}件</td>
                     <td class="borderCount">{{ $count5 }}件</td>
-                </tr>
+                </tr> --}}
                 <br>
             </table><br>
 
             <div class="centerSort">
-                    @if (preg_match('/^\/main(\?sort=.+)?$/i', url()->full()))
-                        <button type="button" onclick="location.href='/main?sort=asc'">賞味期限が短い順</button>
-                        <button type="button" onclick="location.href='/main?sort=desc'">賞味期限が長い順</button>
-                    @endif
-                    @if (preg_match('/^\/main\?category=1(&sort=.+)?$/i', url()->full()))
-                        <button type="button" onclick="location.href='/main?category=1&sort=asc'">賞味期限が短い順1</button>
-                        <button type="button" onclick="location.href='/main?category=1&sort=desc'">賞味期限が長い順1</button>
-                    @endif
+                @if (preg_match('/^\/main(\?sort=.+)?$/i', url()->full()))
+                    <button type="button" onclick="location.href='/main?sort=asc'">賞味期限が短い順</button>
+                    <button type="button" onclick="location.href='/main?sort=desc'">賞味期限が長い順</button>
+                @endif
+                @if (preg_match('/^\/main\?category=1(&sort=.+)?$/i', url()->full()))
+                    <button type="button" onclick="location.href='/main?category=1&sort=asc'">賞味期限が短い順1</button>
+                    <button type="button" onclick="location.href='/main?category=1&sort=desc'">賞味期限が長い順1</button>
+                @endif
                 @if (request()->is('main?category=2'))
                     <button type="button" onclick="location.href='/main?category=2'">賞味期限が短い順2 </button>
                     <button type="button" onclick="location.href='/main?category=2'">賞味期限が長い順2 </button>
@@ -537,7 +376,7 @@
                         @foreach ($foodData as $data)
                             <div class="item {{ $data->class }}">
                                 <a href="/foods/update/{{ $data->id }}"><img class="size"
-                                        src="{{ $data->image }}" alt="商品画像"></a>
+                                        src="{{ asset('storage/' . $data->image) }}" alt="商品画像"></a>
 
                                 <li>商品情報：{{ $data->info }}</li>
                                 <li>賞味期限日：{{ $data->limit_date }}</li>
@@ -551,7 +390,7 @@
                         @foreach ($foods1 as $data)
                             <div class="item {{ $data->class }}">
                                 <a href="/foods/update/{{ $data->id }}"><img class="size"
-                                        src="{{ $data->image }}" alt="商品画像"></a>
+                                        src="{{ asset('storage/' . $data->image) }}" alt="商品画像"></a>
                                 <li>商品情報：{{ $data->info }}</li>
                                 <li>賞味期限日：{{ $data->limit_date }}</li>
                                 <li>賞味期限日まで残り{{ $remainingDays[$data->id] }}日</li>
@@ -563,7 +402,7 @@
                         @foreach ($foods2 as $data)
                             <div class="item {{ $data->class }}">
                                 <a href="/foods/update/{{ $data->id }}"><img class="size"
-                                        src="{{ $data->image }}" alt="商品画像"></a>
+                                        src="{{ asset('storage/' . $data->image) }}" alt="商品画像"></a>
                                 <li>商品情報：{{ $data->info }}</li>
                                 <li>賞味期限日：{{ $data->limit_date }}</li>
                                 <li>賞味期限日まで残り{{ $remainingDays[$data->id] }}日</li>
@@ -575,7 +414,7 @@
                         @foreach ($foods3 as $data)
                             <div class="item {{ $data->class }}">
                                 <a href="/foods/update/{{ $data->id }}"><img class="size"
-                                        src="{{ $data->image }}" alt="商品画像"></a>
+                                        src="{{ asset('storage/' . $data->image) }}" alt="商品画像"></a>
                                 <li>商品情報：{{ $data->info }}</li>
                                 <li>賞味期限日：{{ $data->limit_date }}</li>
                                 <li>賞味期限日まで残り{{ $remainingDays[$data->id] }}日</li>
@@ -588,7 +427,7 @@
                         @foreach ($foods4 as $data)
                             <div class="item {{ $data->class }}">
                                 <a href="/foods/update/{{ $data->id }}"><img class="size"
-                                        src="{{ $data->image }}" alt="商品画像"></a>
+                                        src="{{ asset('storage/' . $data->image) }}" alt="商品画像"></a>
                                 <li>商品情報：{{ $data->info }}</li>
                                 <li>賞味期限日：{{ $data->limit_date }}</li>
                                 <li>通知日：{{ $data->alert }}</li>

@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FoodCreateRequest;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -15,9 +16,47 @@ use Carbon\Carbon;
 
 class FoodController extends Controller
 {
+    public function testShow(Request $request)
+    {
+        $user = User::find($request->id);
+        // dd($user->foods);
+        return view('foods.testShow', [
+            'foods' => $user->foods
+        ]);
+    }
+
+    public function form(Request $request)
+    {
+        $user = User::find($request->id);
+        // dd($user->foods);
+        return view('foods.form', [
+            'foods' => $user->foods,
+            'id' => $user->id
+        ]);
+    }
+
+    public function application(Request $request)
+    {
+        $user = User::find($request->id);
+        $request->session()->put('application', true);
+
+        return redirect()->route('foods.completion', [
+            'id' => $user->id
+        ]);
+    }
+
+    public function completion(Request $request)
+    {
+        if ($request->session()->get('application') === true) {
+            // $request->session()->forget('application');
+        } else {
+            return redirect()->route('foods.main');;
+        }
+        return view('foods.completion');
+    }
+
     public function show(Request $request)
     {
-        // Authファサードを使用して現在ログインしているユーザーのIDを取得
         $userId = Auth::id();
 
 
@@ -71,13 +110,12 @@ class FoodController extends Controller
                 $foodData = Food::where('user_id', $userId)->where('limit_date', '>=', date('Y-m-d'))->where('category_id', 3)->orderBy('limit_date', 'asc')->get();
             }
             if ($category === '4') {
-            $foodData = Food::where('user_id', $userId)->where('limit_date', '<', date('Y-m-d'))->orderBy('limit_date', 'asc')->get();
-            } 
+                $foodData = Food::where('user_id', $userId)->where('limit_date', '<', date('Y-m-d'))->orderBy('limit_date', 'asc')->get();
+            }
             if ($category === '5') {
                 $foodData = Food::where('user_id', $userId)->where('alert', '=', date('Y-m-d'))->orderBy('limit_date', 'asc')->get();
-                } 
-        }
-        else {
+            }
+        } else {
             $foodData = Food::where('user_id', $userId)->where('limit_date', '>=', date('Y-m-d'))->orderBy('limit_date', 'asc')->get();
         }
 
@@ -242,6 +280,7 @@ class FoodController extends Controller
         }
 
         $datas = [
+            'userId' => $userId,
             'foodData' => $foodData,
             'categories' => $categories,
             'foods1' => $foods1,
@@ -260,6 +299,7 @@ class FoodController extends Controller
             // 'sortOrder' => $sortOrder,
             // Food::find($request->id)
         ];
+        // return view('/main', ['userId' => $userId,$datas]);
         return view('/main', $datas);
     }
 
@@ -325,16 +365,12 @@ class FoodController extends Controller
         return redirect('/main');
     }
 
-    public function create(Request $request)
+    public function create(FoodCreateRequest $request)
     {
+        // dd($request->all());
         $newFood = new Food;
         $newFood->info = $request->input('info');
-        $newFood->image = $request->image;
-        // $file = $request->file('image');
-        // $filePath = $file->store('images'); // ファイルを保存してファイルパスを取得
-        // $newFood->image = $filePath; // ファイルパスを保存
-        // Storage::disk('public')->put('images/' , file_get_contents($filePath)); // ファイルをストレージに保存
-        // Storage::disk('public')->put($filePath, file_get_contents(storage_path('app/'.$filePath))); // ファイルを公開用ディスクにコピー
+        $newFood->image = $request->file('image')->store('images', 'public');;
         $newFood->category_id = $request->input('category_id');
         $newFood->limit_date = $request->input('limit_date');
         $newFood->alert = $request->input('alert');
